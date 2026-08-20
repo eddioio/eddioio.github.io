@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Pawtune — Your destiny, read by paws</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --night: #241a47;
+    --night-2: #2a1e52;
+    --card: #3a2d6e;
+    --card-back: #4a3a85;
+    --gold: #ffd166;
+    --pink: #ff9ecd;
+    --amber: #ffb84d;
+    --ink: #fdf4ff;
+    --dim: #cfc0ef;
+    --serif: "Palatino Linotype", Palatino, "Iowan Old Style", Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  /* 이 페이지는 타로의 밤 세계관에 의도적으로 커밋한 단일(다크) 테마 */
+  html, body { background: var(--night); }
+
+  body {
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--ink);
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.9; }
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- 히어로 ---------- */
+  .hero {
+    text-align: center;
+    padding: 88px 0 40px;
+  }
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin: 0 0 20px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(38px, 7vw, 64px);
+    line-height: 1.12;
+    font-weight: 700;
+    margin: 0 0 20px;
+    text-wrap: balance;
+  }
+  h1 .gold { color: var(--gold); }
+  .lede {
+    max-width: 34em;
+    margin: 0 auto 32px;
+    color: var(--dim);
+    font-size: 18px;
+  }
+  .badges {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .badge-store {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--night);
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 13px 30px;
+    font-size: 16px;
+  }
+  .badge-lang {
+    color: var(--dim);
+    font-size: 14px;
+    border: 1px solid var(--card);
+    border-radius: 999px;
+    padding: 12px 20px;
+  }
+
+  /* ---------- 카드 리딩 데모 ---------- */
+  .reading {
+    padding: 48px 0 24px;
+    text-align: center;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(26px, 4vw, 34px);
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+  .section-sub {
+    color: var(--dim);
+    margin: 0 auto 36px;
+    max-width: 38em;
+  }
+  .spread {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .slot { width: 240px; }
+  .pos {
+    color: var(--gold);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .flip {
+    perspective: 1000px;
+    width: 100%;
+    height: 330px;
+    border: 0;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    display: block;
+    font: inherit;
+    color: inherit;
+  }
+  .flip:focus-visible { outline: 3px solid var(--pink); outline-offset: 4px; border-radius: 20px; }
+  .flip-inner {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4, 0.1, 0.2, 1);
+  }
+  .flip.flipped .flip-inner { transform: rotateY(180deg); }
+  .face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .face-back {
+    background: var(--card-back);
+    border: 2px dashed var(--pink);
+    gap: 10px;
+  }
+  .face-back .paw { font-size: 44px; }
+  .face-back .hint { color: var(--dim); font-size: 14px; }
+  .face-front {
+    background: var(--card);
+    border: 2px solid var(--gold);
+    transform: rotateY(180deg);
+    gap: 6px;
+  }
+  .face-front .emoji { font-size: 38px; }
+  .face-front .name {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .face-front .keywords {
+    color: var(--gold);
+    font-size: 12.5px;
+    letter-spacing: 0.06em;
+  }
+  .face-front .msg {
+    color: var(--dim);
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin-top: 6px;
+  }
+
+  /* ---------- 기능 ---------- */
+  .features {
+    padding: 64px 0 16px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .feature {
+    background: var(--night-2);
+    border: 1px solid var(--card);
+    border-radius: 20px;
+    padding: 24px;
+  }
+  .feature h3 {
+    font-family: var(--serif);
+    font-size: 19px;
+    margin: 0 0 8px;
+    color: var(--gold);
+  }
+  .feature p {
+    margin: 0;
+    color: var(--dim);
+    font-size: 15px;
+  }
+
+  /* ---------- 마스터 소개 ---------- */
+  .masters {
+    padding: 56px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .master {
+    border-radius: 24px;
+    padding: 32px 28px;
+    text-align: center;
+  }
+  .master.nyan {
+    background: var(--card);
+    border: 2px solid var(--gold);
+  }
+  .master.doge {
+    background: #4a3520;
+    border: 2px solid var(--amber);
+  }
+  .master .portrait { font-size: 56px; line-height: 1; }
+  .master h3 {
+    font-family: var(--serif);
+    font-size: 24px;
+    margin: 14px 0 4px;
+  }
+  .master.nyan h3 { color: var(--gold); }
+  .master.doge h3 { color: var(--amber); }
+  .master .role {
+    font-size: 12.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 12px;
+  }
+  .master.doge .role { color: var(--amber); }
+  .master p {
+    color: var(--dim);
+    font-size: 15px;
+    margin: 0;
+  }
+
+  /* ---------- 푸터 ---------- */
+  footer {
+    text-align: center;
+    padding: 40px 0 64px;
+    color: var(--dim);
+    font-size: 14px;
+    border-top: 1px solid var(--card);
+  }
+  footer .paws { font-size: 16px; margin-bottom: 12px; opacity: 0.8; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .star { animation: none; opacity: 0.5; }
+    .flip-inner { transition: none; }
+  }
+</style>
+
+</head>
+<body>
+<div class="stars" id="stars" aria-hidden="true"></div>
+
+<main>
+  <section class="hero">
+    <p class="eyebrow">Cat Tarot · Doge Fortune</p>
+    <h1>Your destiny,<br /><span class="gold">read by paws.</span></h1>
+    <p class="lede">
+      Nyanstradamus the cat reads your tarot. Master Doge reads your day.
+      Pawtune is a cozy little fortune app for people who take their destiny
+      — and their pets — just seriously enough.
+    </p>
+    <div class="badges">
+      <span class="badge-store">🐾 Coming soon to the App Store</span>
+      <span class="badge-lang">Available in English &amp; 한국어</span>
+    </div>
+  </section>
+
+  <section class="reading">
+    <h2 class="section-title">Try a three-card reading</h2>
+    <p class="section-sub">
+      Past, present, future — tap each card to turn it over.
+      In the app, you choose your three from a full deck of 78.
+    </p>
+    <div class="spread">
+      <div class="slot">
+        <div class="pos">✦ Past ✦</div>
+        <button class="flip" type="button" aria-label="Reveal the Past card">
+          <span class="flip-inner">
+            <span class="face face-back">
+              <span class="paw">🐾</span>
+              <span class="hint">Tap to flip</span>
+            </span>
+            <span class="face face-front">
+              <span class="emoji">🎡</span>
+              <span class="name">Wheel of Fortune</span>
+              <span class="keywords">Turning Point · Fate · Change</span>
+              <span class="msg">The wheel of fate spins like a cat wheel, meow.
+                The tide is turning — crouch and get ready to pounce.</span>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div class="slot">
+        <div class="pos">✦ Present ✦</div>
+        <button class="flip" type="button" aria-label="Reveal the Present card">
+          <span class="flip-inner">
+            <span class="face face-back">
+              <span class="paw">🐾</span>
+              <span class="hint">Tap to flip</span>
+            </span>
+            <span class="face face-front">
+              <span class="emoji">☀️</span>
+              <span class="name">The Sun</span>
+              <span class="keywords">Success · Joy · Vitality</span>
+              <span class="msg">The card of the cat who claimed the warmest
+                sunbeam, meow! Everything purrs along smoothly today.</span>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div class="slot">
+        <div class="pos">✦ Future ✦</div>
+        <button class="flip" type="button" aria-label="Reveal the Future card">
+          <span class="flip-inner">
+            <span class="face face-back">
+              <span class="paw">🐾</span>
+              <span class="hint">Tap to flip</span>
+            </span>
+            <span class="face face-front">
+              <span class="emoji">⭐</span>
+              <span class="name">The Star</span>
+              <span class="keywords">Hope · Healing · Inspiration</span>
+              <span class="msg">Stars always shine above a cat on its night
+                stroll, meow. Your wish has already been received.</span>
+            </span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="grid">
+      <div class="feature">
+        <h3>A full deck of 78</h3>
+        <p>Every major and minor arcana card, reinterpreted through feline
+          wisdom — from the 3 a.m. zoomies of The Chariot to the sunbeam
+          of The Sun.</p>
+      </div>
+      <div class="feature">
+        <h3>One fortune per day</h3>
+        <p>Master Doge reads your luck, money, and love once a day. Same
+          answer no matter how many times you ask. very consistent. wow.</p>
+      </div>
+      <div class="feature">
+        <h3>Feels like a real deck</h3>
+        <p>Swipe through the spread, pick your three, and flip them with
+          satisfying sounds and a gentle haptic thump.</p>
+      </div>
+      <div class="feature">
+        <h3>English &amp; Korean</h3>
+        <p>Switch languages any time. Your cards, your fortune, and every
+          "meow" translated with care.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="masters">
+    <div class="master nyan">
+      <div class="portrait">🐱</div>
+      <h3>Nyanstradamus</h3>
+      <div class="role">Master of Tarot</div>
+      <p>A mystic cat who has seen nine lifetimes' worth of destinies.
+        Speaks in riddles, ends every prophecy with "meow," and is never
+        wrong — merely early.</p>
+    </div>
+    <div class="master doge">
+      <div class="portrait">🐕</div>
+      <h3>Master Doge</h3>
+      <div class="role">Reader of Days</div>
+      <p>much wisdom. very fortune. Reads the day's energy with unshakable
+        calm, then lies down. Believes 90% of your worries will never
+        happen. wow.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="paws">🐾 ₊˚ 🐾 ₊˚ 🐾</div>
+    <p>© 2026 Pawtune · Made with much love and very little seriousness</p>
+    <p>Support / 문의: <a href="mailto:jumipark222@gmail.com" style="color:#8fd3ff">jumipark222@gmail.com</a> · <a href="../privacy.html" style="color:#8fd3ff">Privacy Policy</a></p>
+  </footer>
+</main>
+
+<script>
+  // 밤하늘 별 뿌리기
+  (function () {
+    const container = document.getElementById("stars");
+    for (let i = 0; i < 48; i++) {
+      const star = document.createElement("span");
+      const size = Math.random() * 2 + 1;
+      star.className = "star";
+      star.style.width = size + "px";
+      star.style.height = size + "px";
+      star.style.left = Math.random() * 100 + "%";
+      star.style.top = Math.random() * 100 + "%";
+      star.style.animationDelay = Math.random() * 3 + "s";
+      container.appendChild(star);
+    }
+  })();
+
+  document.querySelectorAll(".flip").forEach(function (button) {
+    button.addEventListener("click", function () {
+      button.classList.toggle("flipped");
+    });
+  });
+</script>
+
+</body>
+</html>

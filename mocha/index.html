@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mocha's Snack & Nap Adventure — 아기자기한 도트 플랫포머</title>
+<meta name="description" content="폭신폭신 포메라니안 모카와 함께 노을 지는 마을을 달려요. 간식을 모으고 포근한 베개에서 낮잠 자면 클리어!">
+<style>
+  :root { --sky1:#4a3560; --sky2:#a85a75; --sky3:#eeb07d; --ink:#fff8ec; --dim:#e9c9b8; --gold:#ffd166; --card:rgba(23,23,29,.55); }
+  * { box-sizing:border-box }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif; color:var(--ink); line-height:1.7;
+         background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 45%,var(--sky3) 100%) fixed; }
+  main { max-width:880px; margin:0 auto; padding:0 22px 80px; }
+  header { text-align:center; padding:56px 0 8px; }
+  h1 { font-size:2rem; margin:.4em 0 .2em; letter-spacing:-.5px; }
+  .tag { color:var(--dim); margin:0 0 22px; }
+  .hero img { width:min(320px,80vw); border-radius:24px; box-shadow:0 18px 50px rgba(20,10,25,.45); }
+  .btn { display:inline-block; background:#17171d; color:#fff; border:2px solid var(--gold); border-radius:14px;
+         padding:13px 26px; font-weight:800; text-decoration:none; font-size:1.05rem; margin-top:22px; }
+  .btn small { display:block; color:var(--gold); font-size:.72rem; letter-spacing:.8px; font-weight:700; }
+  .shots { display:flex; gap:14px; overflow-x:auto; padding:34px 4px 10px; -webkit-overflow-scrolling:touch; }
+  .shots img { height:380px; border-radius:18px; box-shadow:0 10px 28px rgba(20,10,25,.35); }
+  section.card { background:var(--card); border-radius:20px; padding:26px 28px; margin-top:30px; backdrop-filter:blur(6px); }
+  h2 { font-size:1.15rem; color:var(--gold); margin:0 0 12px; }
+  ul { margin:0; padding-left:1.2em; } li { margin:.35em 0; }
+  footer { text-align:center; color:var(--dim); font-size:.85rem; margin-top:48px; }
+  footer a { color:var(--ink); }
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <img src="img/01_title.jpg" alt="Mocha's Snack & Nap Adventure 타이틀 화면">
+    <h1>Mocha's Snack &amp; Nap Adventure</h1>
+    <p class="tag">폭신폭신 포메라니안 '모카'와 떠나는 아기자기한 도트 플랫포머</p>
+    <a class="btn" href="https://apps.apple.com/app/id6792243110"><small>DOWNLOAD ON THE</small>App Store</a>
+  </header>
+
+  <div class="shots">
+    <img src="img/02_gameplay_sunset.jpg" alt="노을 마을 스테이지 플레이 화면">
+    <img src="img/03_gameplay_night.jpg" alt="별밤 스테이지 플레이 화면">
+    <img src="img/06_stage_select.jpg" alt="스테이지 선택 화면">
+    <img src="img/05_stage_clear.jpg" alt="스테이지 클리어 화면">
+  </div>
+
+  <section class="card">
+    <h2>게임 소개</h2>
+    <p>해질녘 마을을 달리며 쿠키, 도넛, 감자칩을 모으고 포근한 베개 더미에 도착하면 스테이지 클리어!
+       단, 커피는 강아지에게 위험하니 머그컵은 꼭 피해 주세요.</p>
+    <ul>
+      <li>손맛 좋은 조작감 — 코요테 점프와 점프 버퍼로 부드러운 플랫포밍</li>
+      <li>노을 마을부터 별밤, 협곡, 하늘 유적까지 다양한 스테이지</li>
+      <li>별을 모아 다음 스테이지를 해금하고 3성 클리어에 도전</li>
+      <li>무너지는 발판, 움직이는 발판, 통통 튀는 베개 등 다양한 기믹</li>
+      <li>인앱 결제 없음 · 오프라인 플레이 지원 · iPhone/iPad</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>지원 · 문의</h2>
+    <p>버그 제보나 건의사항은 언제든 환영합니다: <a href="mailto:jumipark222@gmail.com" style="color:var(--gold)">jumipark222@gmail.com</a></p>
+    <p><a href="privacy.html" style="color:var(--dim)">개인정보처리방침 (Privacy Policy)</a></p>
+  </section>
+
+  <footer>© 2026 Jumi Park (eddi) · <a href="../">모든 앱 보기</a></footer>
+</main>
+</body>
+</html>
